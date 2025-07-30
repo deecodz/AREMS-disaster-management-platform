@@ -3,6 +3,8 @@ import requests
 import os
 from google.cloud import storage
 from google.cloud import firestore
+from typing import Dict, Any
+from datetime import datetime
 
 # Initialize Firestore and Storage clients
 db = firestore.Client()
@@ -35,33 +37,17 @@ def telegramWebhook(request):
 
     return "OK", 200
 
-def store_message(chat_id, text):
-    """Store message in Firestore"""
-    # Store message in messages collection
-    messages_ref = db.collection('arems-profiles').document('messages').collection(str(chat_id))
-    messages_ref.add({
-        'text': text,
-        'timestamp': firestore.SERVER_TIMESTAMP,
-        'type': 'user_message'
-    })
+def get_file_path(file_id):
+    """Get file path from Telegram"""
+    url = f"{TELEGRAM_API_URL}/getFile"
+    response = requests.get(url, params={"file_id": file_id})
+    if response.status_code == 200:
+        return response.json()["result"]["file_path"]
+    return None
 
-    # Check if user exists in profiles collection, if not create profile
-    user_ref = db.collection('arems-profiles').document('users').collection('profiles').document(str(chat_id))
-    user_doc = user_ref.get()
-    
-    if not user_doc.exists:
-        user_ref.set({
-            'chat_id': chat_id,
-            'first_interaction': firestore.SERVER_TIMESTAMP,
-            'last_active': firestore.SERVER_TIMESTAMP,
-            'total_messages': 1
-        })
-    else:
-        user_ref.update({
-            'last_active': firestore.SERVER_TIMESTAMP,
-            'total_messages': firestore.Increment(1)
-        })
-
+def send_message(chat_id, text):
+    url = f"{TELEGRAM_API_URL}/sendMessage"
+    requests.post(url, json={"chat_id": chat_id, "text": text})
 
 def handle_document(document, chat_id):
     """Handle document uploads"""
@@ -96,14 +82,48 @@ def handle_photo(photos, chat_id):
         
         send_message(chat_id, "Photo received and stored successfully!")
 
-def get_file_path(file_id):
-    """Get file path from Telegram"""
-    url = f"{TELEGRAM_API_URL}/getFile"
-    response = requests.get(url, params={"file_id": file_id})
-    if response.status_code == 200:
-        return response.json()["result"]["file_path"]
-    return None
+def update_user_profile(chat_id: str, updates: Dict[Any, Any]) -> None:
+    """
+    Dynamically update user profile based on new data/use cases
+    Args:
+        chat_id: User's telegram chat ID
+        updates: Dictionary of fields and values to update
+    """
+    user_ref = db.collection('arems-profiles').document('users').collection('profiles').document(str(chat_id))
+    user_doc = user_ref.get()
+    
+    if not user_doc.exists:
+        # New user - create profile with base fields
+        base_profile = {
+            'chat_id': chat_id,
+            'first_interaction': firestore.SERVER_TIMESTAMP,
+            'last_active': firestore.SERVER_TIMESTAMP,
+            'total_messages': 1,
+            'profile_created': datetime.now(),
+            'profile_status': 'new'
+        }
+        # Merge any additional updates
+        base_profile.update(updates)
+        user_ref.set(base_profile)
+    else:
+        # Existing user - update only specified fields
+        updates['last_active'] = firestore.SERVER_TIMESTAMP
+        if 'total_messages' in updates:
+            updates['total_messages'] = firestore.Increment(updates['total_messages'])
+        user_ref.update(updates)
 
-def send_message(chat_id, text):
-    url = f"{TELEGRAM_API_URL}/sendMessage"
-    requests.post(url, json={"chat_id": chat_id, "text": text})
+def store_message(chat_id, text):
+    """Store message in Firestore"""
+    # Store message in messages collection
+    messages_ref = db.collection('arems-profiles').document('messages').collection(str(chat_id))
+    messages_ref.add({
+        'text': text,
+        'timestamp': firestore.SERVER_TIMESTAMP,
+        'type': 'user_message'
+    })
+
+    # Update user profile with message count
+    update_user_profile(chat_id, {
+        'total_messages': 1,
+        'last_message': text
+    })
