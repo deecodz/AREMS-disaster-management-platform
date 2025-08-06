@@ -109,6 +109,11 @@ def handle_document(document, chat_id):
 def handle_photo(photos, chat_id):
     """Handle photo uploads"""
     try:
+        # Get user data first to include username
+        user_ref = db.collection('arems-profiles').document('users').collection('profiles').document(str(chat_id))
+        user_doc = user_ref.get()
+        username = user_doc.get('username') if user_doc.exists else 'unknown'
+
         # Get the largest photo version
         photo = photos[-1]
         file_id = photo.get("file_id")
@@ -119,10 +124,16 @@ def handle_photo(photos, chat_id):
             response = requests.get(file_url)
             
             if response.status_code == 200:
-                timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-                blob = bucket.blob(f"users/{chat_id}/photos/photo_{timestamp}.jpg")
+                # Format timestamp for better readability
+                timestamp = datetime.now().strftime('%I-%M-%p')  # e.g., 09-48-AM
+                date = datetime.now().strftime('%B_%d_%Y')      # e.g., August_06_2025
+                
+                # Updated storage path to include username
+                storage_path = f"users/{chat_id}_{username}/{date}/photos/photo_{timestamp}.jpg"
+                blob = bucket.blob(storage_path)
                 blob.upload_from_string(response.content)
-                logger.info(f"Successfully uploaded photo from chat_id: {chat_id}")
+                
+                logger.info(f"Successfully uploaded photo from {username} ({chat_id})")
                 send_message(chat_id, "Photo received and stored successfully!")
             else:
                 logger.error(f"Failed to download photo: {response.status_code}")
