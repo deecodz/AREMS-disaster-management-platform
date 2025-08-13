@@ -74,7 +74,7 @@ def telegramWebhook(request):
 
         send_message(chat_id, f"You said: {text}")
         logger.info("Message processing completed")
-
+    
     return "OK", 200
 
 def get_file_path(file_id):
@@ -180,27 +180,48 @@ def store_message(chat_id, text):
         user_doc = user_ref.get()
         username = user_doc.get('username') if user_doc.exists else 'unknown'
 
-        # Store message with timestamp as document ID
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        message_id = f"{timestamp}_{username}"
+        # Create chat_id with username
+        chat_id_with_username = f"{chat_id}_{username}"
+
+        # Create date-based collection and timestamp-based document
+        current_date = datetime.now()
+        date_str = current_date.strftime('%B_%d_%Y')  # e.g., August_06_2025
+        time_str = current_date.strftime('%I:%M %p')  # e.g., 09:48 AM
         
-        # Define message storage path
-        date_path = datetime.now().strftime('%B_%d_%Y')
-        message_path = f"arems-profiles/messages/{chat_id}_{username}/{date_path}/daily_messages/{message_id}"
-        
-        # Store the message
-        db.document(message_path).set({
+        # Structure: messages/{chat_id_username}/{date}/{timestamp}_message
+        messages_ref = (db.collection('arems-profiles')
+                         .document('messages')
+                         .collection(chat_id_with_username)
+                         .document(date_str)
+                         .collection('daily_messages'))
+
+        messages_ref.document(f"{time_str}_message").set({
             'text': text,
             'timestamp': firestore.SERVER_TIMESTAMP,
             'type': 'user_message',
             'username': username
         })
-        logger.info(f"Successfully stored message for {username} ({chat_id})")
+        
+        logger.info(f"Successfully stored message for {username} ({chat_id}) at {date_str} {time_str}")
+
+        # Update daily message summary
+        daily_summary_ref = (db.collection('arems-profiles')
+                             .document('messages')
+                             .collection(chat_id_with_username)
+                             .document(date_str))
+        
+        daily_summary_ref.set({
+            'date': current_date.date(),
+            'message_count': firestore.Increment(1),
+            'last_message_time': firestore.SERVER_TIMESTAMP,
+            'username': username
+        }, merge=True)
 
         # Update user profile
         update_user_profile(chat_id, {
             'total_messages': 1,
-            'last_message': text
+            'last_message': text,
+            'last_message_time': f"{date_str} at {time_str}"
         })
     except Exception as e:
         logger.error(f"Error storing message: {str(e)}")
