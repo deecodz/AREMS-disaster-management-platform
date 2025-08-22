@@ -1,0 +1,28 @@
+{
+  "name": "366dab49-826b-4faa-8883-160aaa87611a",
+  "actions": [ {
+    "userUtterance": {
+      "text": "Can you tell me general safety procedures for emergencies?"
+    }
+  }, {
+    "agentUtterance": {
+      "text": "Absolutely. I can provide guidelines on staying safe during a range of emergencies. Let me show you the comprehensive safety protocols."
+    }
+  }, {
+    "flowTransition": {
+      "flow": "Emergency_Procedures"
+    }
+  } ],
+  "playbookOutput": {
+    "executionSummary": "The playbook will give a user guidelines on how to go about general safety procedures during an emergency by referencing the emergency_procedures flow ",
+    "actionParameters": {
+    
+    }
+  },
+  "displayName": " General Safety Protocol Inquiry",
+  "retrievalStrategy": "DEFAULT",
+  "description": "User asks for general safety measures to follow in any disaster situation.",
+  "tokenCount": 157,
+  "conversationState": "OUTPUT_STATE_OK",
+  "languageCode": "en"
+}

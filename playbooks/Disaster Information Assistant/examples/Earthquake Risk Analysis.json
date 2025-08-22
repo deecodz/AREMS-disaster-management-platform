@@ -1,0 +1,28 @@
+{
+  "name": "3b2477f1-5907-4699-9c91-3d948ff49c37",
+  "actions": [ {
+    "userUtterance": {
+      "text": "Assess earthquake risk for children in my neighborhood."
+    }
+  }, {
+    "agentUtterance": {
+      "text": "Sure, I’ll evaluate the risk level for children in your neighborhood based on local hazard data and vulnerability factors. Please specify your location for a precise assessment."
+    }
+  }, {
+    "flowTransition": {
+      "flow": "Risk_Assessment"
+    }
+  } ],
+  "playbookOutput": {
+    "executionSummary": "The agent transitioned to the Risk_Assessment flow, collecting area and population details to perform a targeted earthquake risk evaluation for children.",
+    "actionParameters": {
+    
+    }
+  },
+  "displayName": "Earthquake Risk Analysis",
+  "retrievalStrategy": "DEFAULT",
+  "description": "User requests a risk assessment for earthquake impact on a specific population group in their area.",
+  "tokenCount": 155,
+  "conversationState": "OUTPUT_STATE_OK",
+  "languageCode": "en"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "19a506a0-bf29-4b19-851c-4a9dd4524567",
+  "actions": [ {
+    "userUtterance": {
+      "text": "What should I do if someone faints?"
+    }
+  }, {
+    "agentUtterance": {
+      "text": "If someone faints, first check for responsiveness, ensure they're breathing, and call emergency services. Let me guide you through the medical emergency procedures in detail."
+    }
+  }, {
+    "flowTransition": {
+      "flow": "Emergency_Procedures"
+    }
+  } ],
+  "playbookOutput": {
+    "executionSummary": "The user asks for guidance on what to do when someone faints and the agent routes to the Emergency_procedures flow for outlined guidance on what to do.",
+    "actionParameters": {
+    
+    }
+  },
+  "displayName": "Medical Guidance Request",
+  "retrievalStrategy": "DEFAULT",
+  "description": "A user seeks step-by-step instructions for managing a medical emergency when someone is unconscious.",
+  "tokenCount": 169,
+  "conversationState": "OUTPUT_STATE_OK",
+  "languageCode": "en"
+}

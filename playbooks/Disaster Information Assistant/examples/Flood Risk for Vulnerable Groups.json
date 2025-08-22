@@ -1,0 +1,28 @@
+{
+  "name": "17f629aa-9caa-4caf-be0a-2aa866f55777",
+  "actions": [ {
+    "userUtterance": {
+      "text": "What’s the flood risk for elderly people in Bang Sue?"
+    }
+  }, {
+    "agentUtterance": {
+      "text": "Let’s analyze the risk. I’ll check current flood warnings and population vulnerability in Bang Sue to assess the situation and provide safety recommendations."
+    }
+  }, {
+    "flowTransition": {
+      "flow": "Risk_Assessment"
+    }
+  } ],
+  "playbookOutput": {
+    "executionSummary": "The agent used the Risk_Assessment flow to analyze and report flood risks for elderly residents in Bang Sue, including specific safety recommendations.",
+    "actionParameters": {
+    
+    }
+  },
+  "displayName": "Flood Risk for Vulnerable Groups",
+  "retrievalStrategy": "DEFAULT",
+  "description": "User wants a risk evaluation for possible flooding and its effect on elderly residents in a particular area.",
+  "tokenCount": 157,
+  "conversationState": "OUTPUT_STATE_OK",
+  "languageCode": "en"
+}

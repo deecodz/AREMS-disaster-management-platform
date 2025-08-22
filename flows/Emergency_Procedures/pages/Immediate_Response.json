@@ -1,0 +1,44 @@
+{
+  "name": "27de09f3-1fdf-432b-acae-05b981c81006",
+  "displayName": "Immediate_Response",
+  "form": {
+  
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "🚨 **IMMEDIATE EMERGENCY RESPONSE PROCEDURES**\r\n\r\n**STEP 1: ASSESS THE SITUATION**\r\n- Ensure your own safety first\r\n- Determine if immediate danger exists\r\n- Identify the type of emergency\r\n\r\n**STEP 2: ALERT AUTHORITIES**\r\n- Call emergency services immediately if life-threatening\r\n- Contact facility security if applicable\r\n- Alert nearby personnel of the danger\r\n\r\n**STEP 3: TAKE PROTECTIVE ACTION**\r\n- Move to safety if possible\r\n- Provide first aid if trained and safe to do so\r\n- Do not enter dangerous areas\r\n\r\n**STEP 4: AWAIT PROFESSIONAL HELP**\r\n- Stay in safe location\r\n- Follow instructions from emergency responders\r\n- Be prepared to provide information about the incident\r\n\r\nWould you like information about specific emergency procedures, or do you need to report an actual emergency?\r\n" ]
+      },
+      "languageCode": "en"
+    } ],
+    "webhook": "arems_emergency_webhook",
+    "tag": "emergency-procedures"
+  },
+  "transitionRoutes": [ {
+    "intent": "Back_To_Menu ",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Emergency_Procedures_Menu",
+    "name": "0c8f8bf1-859e-4019-b1d7-66194b342bb1"
+  }, {
+    "intent": "Report_Incident",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "I understand you have an emergency to report. Let me immediately transfer you to our emergency reporting system." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "targetFlow": "Emergency_Report",
+    "name": "1664bab5-dd1a-4498-9829-fac94119019f"
+  }, {
+    "intent": "Chat_Conclusion",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Chat_conclusion",
+    "name": "0294ce89-7609-440a-8e84-e16464e008eb"
+  } ]
+}

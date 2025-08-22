@@ -1,0 +1,28 @@
+{
+  "name": "c1a38e84-7bdd-4069-948f-03714a3e2b19",
+  "actions": [ {
+    "userUtterance": {
+      "text": "I'm reporting a flood in Khlong San district."
+    }
+  }, {
+    "agentUtterance": {
+      "text": "Thank you for alerting us. Can you tell me the severity of the flooding and any immediate risks or damages?"
+    }
+  }, {
+    "flowTransition": {
+      "flow": "Emergency_Report"
+    }
+  } ],
+  "playbookOutput": {
+    "executionSummary": "The agent initiated the Emergency_Report flow to collect detailed information about the flood incident, preparing for escalation to responders.",
+    "actionParameters": {
+    
+    }
+  },
+  "displayName": "Flood Incident Reporting",
+  "retrievalStrategy": "DEFAULT",
+  "description": "User wants to report a flood affecting their local area and is ready to provide details.",
+  "tokenCount": 153,
+  "conversationState": "OUTPUT_STATE_ESCALATED",
+  "languageCode": "en"
+}

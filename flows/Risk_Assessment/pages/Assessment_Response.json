@@ -1,0 +1,64 @@
+{
+  "name": "18369a4e-9c47-4fbd-aed1-c92dc09c1ef7",
+  "displayName": "Assessment_Response",
+  "form": {
+  
+  },
+  "transitionRoutes": [ {
+    "condition": "$session.params.risk_level = \"CRITICAL\"",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "🚨 **CRITICAL RISK DETECTED**\n\nThis assessment indicates an immediate threat requiring urgent action. Emergency management protocols should be activated immediately. Contact emergency services and initiate evacuation procedures if necessary." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "66f1affd-3c55-4a4e-bd2a-d6e959891c22"
+  }, {
+    "condition": "$session.params.risk_level = \"HIGH\"",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "🔴 **HIGH RISK IDENTIFIED**\n\nSignificant risk detected. Recommend immediate preparedness measures and continuous monitoring. Alert relevant authorities and prepare contingency plans." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "2b53f79c-daf0-4142-9ba6-6395faef5b1c"
+  }, {
+    "condition": "$session.params.risk_level = \"MEDIUM\"",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "🟡 **MEDIUM RISK LEVEL**\n\nModerate risk requires ongoing attention. Implement precautionary measures and establish monitoring protocols. Regular assessment updates recommended." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "49820d45-6f97-46be-8056-2941fb62afaf"
+  }, {
+    "condition": "$session.params.risk_level = \"LOW\"",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "🟢 **LOW RISK ASSESSMENT**\n\nCurrent risk levels are manageable with standard safety protocols. Continue routine monitoring and maintain preparedness procedures." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "969e6912-fd22-4333-9f4f-3c72c6749b8f"
+  }, {
+    "condition": "\"TRUE\"",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "Risk assessment completed. Please contact emergency management for detailed analysis of your specific situation." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "targetPage": "Chat_Conclusion",
+    "name": "251826e0-f513-4e69-a007-d632c6b6ab30"
+  } ]
+}

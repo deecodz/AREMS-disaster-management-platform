@@ -1,0 +1,44 @@
+{
+  "name": "f82fd86c-035c-412b-9a84-c71baeb37631",
+  "displayName": "Natural_Disaster_Protocols",
+  "form": {
+  
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "🌊 **NATURAL DISASTER PROTOCOLS**\r\n\r\n**EARTHQUAKE RESPONSE:**\r\n- Drop, Cover, and Hold On\r\n- Stay away from windows and heavy objects\r\n- If outdoors, move away from buildings\r\n- After shaking stops, evacuate if building damaged\r\n\r\n**FLOOD RESPONSE:**\r\n- Move to higher ground immediately\r\n- Avoid walking/driving through flood water\r\n- Turn off utilities if safe to do so\r\n- Listen for official evacuation orders\r\n\r\n**FIRE/WILDFIRE RESPONSE:**\r\n- Evacuate immediately if ordered\r\n- Close all windows and doors\r\n- Remove flammable materials from around buildings\r\n- Have emergency supplies ready\r\n\r\n**SEVERE WEATHER:**\r\n- Monitor weather alerts continuously\r\n- Seek shelter in sturdy building\r\n- Stay away from windows during high winds\r\n- Have emergency communications plan\r\n\r\nWhich natural disaster protocol do you need more information about?\r\n" ]
+      },
+      "languageCode": "en"
+    } ],
+    "webhook": "arems_emergency_webhook",
+    "tag": "emergency-procedures"
+  },
+  "transitionRoutes": [ {
+    "intent": "Back_To_Menu ",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Emergency_Procedures_Menu",
+    "name": "458d3623-0376-40f3-8866-6b082a6845f0"
+  }, {
+    "intent": "Report_Incident",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "I understand you have an emergency to report. Let me immediately transfer you to our emergency reporting system." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "targetFlow": "Emergency_Report",
+    "name": "41af7af7-d0f2-4105-b200-c66c71a20412"
+  }, {
+    "intent": "Chat_Conclusion",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Chat_conclusion",
+    "name": "d261da31-8754-4e33-86ad-d7ad11db54e9"
+  } ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "d424b5c3-056a-49c5-9100-21f5a198a2f7",
+  "displayName": "Chat_Conclusion",
+  "form": {
+  
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "You're very welcome! I'm glad I could help you with the the assessment. Don't hesitate to reach out if you need any further assistance." ]
+      },
+      "languageCode": "en"
+    } ],
+    "webhook": "arems_emergency_webhook",
+    "tag": "risk_assessment"
+  },
+  "transitionRoutes": [ {
+    "intent": "Chat_Conclusion",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "You're very welcome! I'm glad I could help you with the assessment, don't hesitate to reach out if you need any further assistance." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "targetFlow": "Default Start Flow",
+    "name": "8302a054-24ca-4e09-bd94-a8f34e8186e7"
+  } ]
+}

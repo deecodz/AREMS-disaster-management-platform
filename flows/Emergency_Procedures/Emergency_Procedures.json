@@ -1,0 +1,77 @@
+{
+  "name": "e3e8ff2c-b39c-4162-b359-a8e131ad40c7",
+  "displayName": "Emergency_Procedures",
+  "description": "Comprehensive emergency procedures and guidance",
+  "transitionRoutes": [ {
+    "intent": "Medical_Emergency_Info",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Medical_Emergency_Response",
+    "name": "0a2de97e-1fbd-4a31-854f-b9ad7e590911"
+  }, {
+    "intent": "Evacuation_Info ",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Evacuation_Procedures",
+    "name": "603b3324-0348-46e3-8e18-59ccd61f16ac"
+  }, {
+    "intent": "Natural_Disaster_Info",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Natural_Disaster_Protocols",
+    "name": "b5481296-0e83-4539-82f4-725fd3fe968b"
+  }, {
+    "intent": "Immediate_Response_Request",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "emergency response procedures" ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "targetPage": "Immediate_Response",
+    "name": "8a517d55-04b9-4269-8274-f01c74604c3e"
+  } ],
+  "eventHandlers": [ {
+    "event": "sys.no-match-default",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "I didn't get that. Can you say it again?", "I missed what you said. What was that?", "Sorry, could you say that again?", "Sorry, can you say that again?", "Can you say that again?", "Sorry, I didn't get that. Can you rephrase?", "Sorry, what was that?", "One more time?", "What was that?", "Say that one more time?", "I didn't get that. Can you repeat?", "I missed that, say that again?" ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "dda80952-9ec9-4672-a8b7-2729b0970fca"
+  }, {
+    "event": "sys.no-input-default",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "I didn't get that. Can you say it again?", "I missed what you said. What was that?", "Sorry, could you say that again?", "Sorry, can you say that again?", "Can you say that again?", "Sorry, I didn't get that. Can you rephrase?", "Sorry, what was that?", "One more time?", "What was that?", "Say that one more time?", "I didn't get that. Can you repeat?", "I missed that, say that again?" ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "7ddada74-5500-41fa-a1a7-ebabe8462b84"
+  } ],
+  "nluSettings": {
+    "modelType": "MODEL_TYPE_ADVANCED",
+    "classificationThreshold": 0.30000001,
+    "modelTrainingMode": "MODEL_TRAINING_MODE_AUTOMATIC"
+  },
+  "advancedSettings": {
+    "enabled": true
+  },
+  "nluSettingsList": [ {
+    "modelType": "MODEL_TYPE_ADVANCED",
+    "classificationThreshold": 0.30000001,
+    "modelTrainingMode": "MODEL_TRAINING_MODE_AUTOMATIC",
+    "customConfigKey": "c4c9a7ed-9a22-4484-9b4a-912648cd2f70",
+    "languageCode": "en"
+  } ]
+}

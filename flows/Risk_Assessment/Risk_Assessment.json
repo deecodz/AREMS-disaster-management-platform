@@ -1,0 +1,46 @@
+{
+  "name": "acb522ad-8b3c-4ebe-9dbf-ce9e94f41fdf",
+  "displayName": "Risk_Assessment",
+  "transitionRoutes": [ {
+    "intent": "Assess_Risk",
+    "triggerFulfillment": {
+      "webhook": "arems_emergency_webhook",
+      "tag": "Emergency_procedures "
+    },
+    "targetPage": "Risk_Assessment_Form",
+    "name": "2eb133fd-131c-44e4-b4e3-6471a59874d4"
+  } ],
+  "eventHandlers": [ {
+    "event": "sys.no-match-default",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "I didn't get that. Can you say it again?", "I missed what you said. What was that?", "Sorry, could you say that again?", "Sorry, can you say that again?", "Can you say that again?", "Sorry, I didn't get that. Can you rephrase?", "Sorry, what was that?", "One more time?", "What was that?", "Say that one more time?", "I didn't get that. Can you repeat?", "I missed that, say that again?" ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "a87bac6c-61de-4224-82b5-99f6f48cd98b"
+  }, {
+    "event": "sys.no-input-default",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "I didn't get that. Can you say it again?", "I missed what you said. What was that?", "Sorry, could you say that again?", "Sorry, can you say that again?", "Can you say that again?", "Sorry, I didn't get that. Can you rephrase?", "Sorry, what was that?", "One more time?", "What was that?", "Say that one more time?", "I didn't get that. Can you repeat?", "I missed that, say that again?" ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "e0807e4c-0be5-4a51-a9da-a9c9858048e8"
+  } ],
+  "nluSettings": {
+    "modelType": "MODEL_TYPE_ADVANCED",
+    "classificationThreshold": 0.30000001
+  },
+  "nluSettingsList": [ {
+    "modelType": "MODEL_TYPE_ADVANCED",
+    "classificationThreshold": 0.30000001,
+    "customConfigKey": "e55b49e1-d569-41ec-927e-26229615dc8c",
+    "languageCode": "en"
+  } ]
+}

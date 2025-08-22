@@ -1,0 +1,27 @@
+{
+  "entities": [ {
+    "value": "Children",
+    "synonyms": [ "adolescents", "Children", "dependents", "infants", "kids", "minors", "youngsters", "youths" ],
+    "languageCode": "en"
+  }, {
+    "value": "Immigrants",
+    "synonyms": [ "aliens", "foreign-born", "Immigrants", "migrants", "newcomers", "refugees" ],
+    "languageCode": "en"
+  }, {
+    "value": "minorities",
+    "synonyms": [ "disadvantaged groups", "ethnic minorities", "marginalized groups", "minorities", "protected classes", "underrepresented communities", "vulnerable populations" ],
+    "languageCode": "en"
+  }, {
+    "value": "citizens",
+    "synonyms": [ "citizens", "community members", "inhabitants", "nationals", "people", "residents", "taxpayers" ],
+    "languageCode": "en"
+  }, {
+    "value": "aged people",
+    "synonyms": [ "aged people", "elderly", "golden agers", "older adults", "senior citizens", "the aged" ],
+    "languageCode": "en"
+  }, {
+    "value": "families",
+    "synonyms": [ "families", "folks", "households", "kin", "lineage", "relatives" ],
+    "languageCode": "en"
+  } ]
+}

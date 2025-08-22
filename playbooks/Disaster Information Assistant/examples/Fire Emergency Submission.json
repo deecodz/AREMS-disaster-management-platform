@@ -1,0 +1,28 @@
+{
+  "name": "abcdb8d3-33ed-4cae-84bb-0fb7d4e7e39e",
+  "actions": [ {
+    "userUtterance": {
+      "text": "There's a fire at the market, please help."
+    }
+  }, {
+    "agentUtterance": {
+      "text": "I'm here to help. Is anyone injured and what is your current location? I'll notify emergency responders as soon as we have more details."
+    }
+  }, {
+    "flowTransition": {
+      "flow": "Emergency_Report"
+    }
+  } ],
+  "playbookOutput": {
+    "executionSummary": "The user was guided through the Emergency_Report flow, where the agent prompted for essential details to enable notification of emergency services about the fire.",
+    "actionParameters": {
+    
+    }
+  },
+  "displayName": "Fire Emergency Submission",
+  "retrievalStrategy": "DEFAULT",
+  "description": "A user urgently reports a fire outbreak and is prompted for location and severity.",
+  "tokenCount": 166,
+  "conversationState": "OUTPUT_STATE_ESCALATED",
+  "languageCode": "en"
+}

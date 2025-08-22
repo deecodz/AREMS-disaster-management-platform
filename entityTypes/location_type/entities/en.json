@@ -1,0 +1,23 @@
+{
+  "entities": [ {
+    "value": "infrastructure",
+    "synonyms": [ "bridge", "building", "complex", "establishment", "facility", "highway", "infrastructure", "institution", "locale", "premise", "site", "structure", "train station" ],
+    "languageCode": "en"
+  }, {
+    "value": "public_facility",
+    "synonyms": [ "civic center", "community center", "government building", "municipal building", "public library", "public_facility", "town hall" ],
+    "languageCode": "en"
+  }, {
+    "value": "industrial_area",
+    "synonyms": [ "brownfield", "commercial park", "economic zone", "factory district", "industrial_area", "manufacturing zone", "plant area", "trading estate" ],
+    "languageCode": "en"
+  }, {
+    "value": "commercial_district",
+    "synonyms": [ "business park", "commercial district", "commercial zone", "downtown area", "financial district", "market square", "retail area", "shopping center" ],
+    "languageCode": "en"
+  }, {
+    "value": "residential_area",
+    "synonyms": [ "commune", "domestic area", "housing development", "housing estate", "neighborhood", "private housing", "residential area", "residential district", "suburb" ],
+    "languageCode": "en"
+  } ]
+}

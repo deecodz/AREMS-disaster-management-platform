@@ -1,0 +1,44 @@
+{
+  "name": "bdaf4caa-87e1-4148-a2eb-41e6c943b621",
+  "displayName": "Evacuation_Procedures",
+  "form": {
+  
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "⚡ **EVACUATION PROCEDURES**\r\n\r\n**WHEN TO EVACUATE:**\r\n- Fire alarm sounds\r\n- Gas leak detected\r\n- Structural damage observed\r\n- Bomb threat received\r\n- Natural disaster warning issued\r\n- Official evacuation order given\r\n\r\n**EVACUATION STEPS:**\r\n1. **IMMEDIATE ACTION**\r\n   - Stop what you're doing\r\n   - Leave immediately via nearest safe exit\r\n   - Do not use elevators\r\n\r\n2. **DURING EVACUATION**\r\n   - Stay low if smoke present\r\n   - Assist those who need help\r\n   - Close doors behind you\r\n   - Move quickly but don't run\r\n\r\n3. **AT ASSEMBLY POINT**\r\n   - Report to designated area\r\n   - Stay with your group\r\n   - Account for all personnel\r\n   - Await further instructions\r\n\r\n**REMEMBER:**\r\n- Never re-enter building until authorities give all-clear\r\n- Have predetermined meeting points\r\n- Know multiple exit routes\r\n\r\nNeed information about specific evacuation scenarios?\r\n" ]
+      },
+      "languageCode": "en"
+    } ],
+    "webhook": "arems_emergency_webhook",
+    "tag": "emergency-procedures"
+  },
+  "transitionRoutes": [ {
+    "intent": "Back_To_Menu ",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Emergency_Procedures_Menu",
+    "name": "ec31965e-a797-4646-84c6-b2dbb75bac9e"
+  }, {
+    "intent": "Report_Incident",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "I understand you have an emergency to report. Let me immediately transfer you to our emergency reporting system." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "targetFlow": "Emergency_Report",
+    "name": "18cac373-9b3e-4e47-be88-b85dc84394f6"
+  }, {
+    "intent": "Chat_Conclusion",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Chat_conclusion",
+    "name": "b19874b7-e31d-41e9-ad36-50582d9db8e6"
+  } ]
+}

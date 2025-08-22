@@ -1,0 +1,57 @@
+{
+  "name": "cb9c2d14-5dd1-4464-bb40-2422ee7ee67f",
+  "displayName": "Escalation_Routing",
+  "form": {
+  
+  },
+  "entryFulfillment": {
+    "webhook": "arems_emergency_webhook",
+    "tag": "emergency-submission"
+  },
+  "transitionRoutes": [ {
+    "intent": "Chat_Conclusion",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "You're very welcome! I'm glad I could help you report this emergency incident. Stay safe, and don't hesitate to reach out if you need any further assistance." ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "targetFlow": "Default Start Flow",
+    "name": "8c1af198-0e89-4a31-b6cc-f3bfd32d0716"
+  }, {
+    "condition": "$session.params.severity_level = \"critical\"",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "This is a CRITICAL emergency. Immediate dispatch has been initiated. Emergency responders are being contacted now. Stay safe and follow emergency protocols.\r\n" ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "4ad14ba7-dd11-40a2-9ffe-2a8a5f9e7eda"
+  }, {
+    "condition": "$session.params.severity_level = \"high\"",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "This is a HIGH severity incident. Emergency response teams have been notified and will be dispatched shortly. Please remain in a safe location.\r\n" ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "ca421b9f-203b-484d-bb06-bf086f8a3c3e"
+  }, {
+    "condition": "$session.params.severity_level = \"medium\" OR $session.params.severity_level = \"low\"",
+    "triggerFulfillment": {
+      "messages": [ {
+        "text": {
+          "text": [ "Your incident report has been logged and will be addressed by the appropriate response team. You will receive updates via your provided contact information.\r\n" ]
+        },
+        "languageCode": "en"
+      } ]
+    },
+    "name": "f098695d-eaa8-4ef5-8f60-83a7e0f81593"
+  } ]
+}

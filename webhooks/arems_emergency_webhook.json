@@ -1,0 +1,12 @@
+{
+  "name": "1b3487ea-4813-450f-8faf-4a919ecf5f78",
+  "displayName": "arems_emergency_webhook",
+  "genericWebService": {
+    "uri": "https://us-central1-arems-project.cloudfunctions.net/telegramWebhook",
+    "webhookType": "STANDARD",
+    "serviceAgentAuth": "ID_TOKEN"
+  },
+  "timeout": {
+    "seconds": 30
+  }
+}

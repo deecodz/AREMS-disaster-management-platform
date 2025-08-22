@@ -1,0 +1,75 @@
+{
+  "trainingPhrases": [ {
+    "parts": [ {
+      "text": "I need a risk assessment for cyber security following a data breach"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "What is the risk of a nuclear meltdown at the power plant?"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "Assess the risk of a wildfire in California."
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "I need to evaluate the risk of a tornado in Oklahoma."
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "What is the risk assessment for a tsunami in Indonesia?"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "Risk assessment for hurricane affecting elderly population"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "Security threat assessment for emergency workers\r"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "Evaluate biological hazard risk in residential areas\r"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "Risk analysis needed for technological hazard affecting tourists\r"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "Assess natural disaster risk for general population\r"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "What's the flood risk for vulnerable groups in this area?\r"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  }, {
+    "parts": [ {
+      "text": "I need a risk assessment for earthquake in Bangkok\r"
+    } ],
+    "repeatCount": 1,
+    "languageCode": "en"
+  } ]
+}

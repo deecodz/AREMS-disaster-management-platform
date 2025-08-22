@@ -1,0 +1,17 @@
+{
+  "name": "4efbb3d3-b4e4-4628-b490-3a4e3bcc68b0",
+  "displayName": "Emergency_Procedures_Menu",
+  "form": {
+  
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "I'm here to help you with emergency procedures and guidance. I can provide information about:\r\n\r\n🚨 **Immediate Response Procedures**\r\n📋 **Incident Classification Guidelines** \r\n🆘 **Safety Protocols**\r\n⚡ **Evacuation Procedures**\r\n📞 **Emergency Contact Information**\r\n🏥 **Medical Emergency Response**\r\n🌊 **Natural Disaster Protocols**\r\n\r\nWhich emergency procedure would you like to learn about? You can say things like \"evacuation procedures\" or \"medical emergency response.\"\r\n" ]
+      },
+      "languageCode": "en"
+    } ],
+    "webhook": "arems_emergency_webhook",
+    "tag": "emergency-procedures"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "036655a9-7618-4048-b5d9-8a65c478c0d6",
+  "displayName": "Chat_conclusion",
+  "form": {
+  
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "You're very welcome! I'm glad I could help you report this emergency incident. Stay safe, and don't hesitate to reach out if you need any further assistance." ]
+      },
+      "languageCode": "en"
+    } ]
+  },
+  "transitionRoutes": [ {
+    "intent": "Chat_Conclusion",
+    "triggerFulfillment": {
+    
+    },
+    "targetFlow": "Default Start Flow",
+    "name": "c5e10806-aab7-4974-b74d-e1767b0a7a22"
+  } ]
+}

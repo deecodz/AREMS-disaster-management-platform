@@ -1,0 +1,82 @@
+{
+  "name": "38a68954-a20f-4e07-8e62-7483a0788c1a",
+  "displayName": "Collect_Emergency_Details",
+  "form": {
+    "parameters": [ {
+      "displayName": "incident_type",
+      "required": true,
+      "entityType": "@incident_type",
+      "fillBehavior": {
+        "initialPromptFulfillment": {
+          "messages": [ {
+            "text": {
+              "text": [ "What type of incident are you reporting? (earthquake, flood, fire, medical emergency, or infrastructure damage)" ]
+            },
+            "languageCode": "en"
+          } ]
+        }
+      }
+    }, {
+      "displayName": "location",
+      "required": true,
+      "entityType": "@sys.location",
+      "fillBehavior": {
+        "initialPromptFulfillment": {
+          "messages": [ {
+            "text": {
+              "text": [ "Where is the incident located? Please provide a specific address or area name" ]
+            },
+            "languageCode": "en"
+          } ]
+        }
+      }
+    }, {
+      "displayName": "severity_level",
+      "required": true,
+      "entityType": "@severity_level",
+      "fillBehavior": {
+        "initialPromptFulfillment": {
+          "messages": [ {
+            "text": {
+              "text": [ "What is the severity level? (low, medium, high, or critical)" ]
+            },
+            "languageCode": "en"
+          } ]
+        }
+      }
+    }, {
+      "displayName": "contact_info",
+      "required": true,
+      "entityType": "@sys.phone-number",
+      "fillBehavior": {
+        "initialPromptFulfillment": {
+          "messages": [ {
+            "text": {
+              "text": [ "Please provide your contact information (phone number)" ]
+            },
+            "languageCode": "en"
+          } ]
+        }
+      }
+    } ]
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "I'm here to help you report this emergency incident. Let me collect the necessary details to ensure proper response.\r\n" ]
+      },
+      "languageCode": "en"
+    } ],
+    "webhook": "arems_emergency_webhook",
+    "tag": "emergency-submission"
+  },
+  "transitionRoutes": [ {
+    "condition": "$page.params.status = \"FINAL\"",
+    "triggerFulfillment": {
+      "webhook": "arems_emergency_webhook",
+      "tag": "emergency-submission"
+    },
+    "targetPage": "Escalation_Routing",
+    "name": "d07cd0ae-8a66-4cc5-8564-c8c267e84165"
+  } ]
+}

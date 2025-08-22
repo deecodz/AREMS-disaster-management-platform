@@ -1,0 +1,38 @@
+{
+  "name": "1763d933-67f6-434d-b8aa-cea7a724d27c",
+  "displayName": "Medical_Emergency_Response",
+  "form": {
+  
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "🏥 **MEDICAL EMERGENCY RESPONSE PROCEDURES**\r\n\r\n**FOR UNCONSCIOUS PERSON:**\r\n1. Check for responsiveness - tap shoulders, shout \"Are you okay?\"\r\n2. Call emergency services immediately (911/local emergency number)\r\n3. Check for breathing - look, listen, feel for 10 seconds\r\n4. If not breathing, begin CPR if trained\r\n5. Place in recovery position if breathing but unconscious\r\n\r\n**FOR CONSCIOUS INJURED PERSON:**\r\n1. Keep the person calm and still\r\n2. Control bleeding with direct pressure\r\n3. Do not move person if spinal injury suspected\r\n4. Monitor vital signs until help arrives\r\n5. Provide comfort and reassurance\r\n\r\n**IMPORTANT REMINDERS:**\r\n- Only provide aid within your training level\r\n- Never move a severely injured person unless immediate danger\r\n- Stay with the victim until professional help arrives\r\n\r\nDo you need guidance on any specific medical emergency scenario?\r\n" ]
+      },
+      "languageCode": "en"
+    } ],
+    "webhook": "arems_emergency_webhook",
+    "tag": "emergency-procedures"
+  },
+  "transitionRoutes": [ {
+    "intent": "Back_To_Menu ",
+    "triggerFulfillment": {
+    
+    },
+    "targetPage": "Emergency_Procedures_Menu",
+    "name": "be360716-4973-499d-8648-55f80fcf275b"
+  }, {
+    "intent": "Report_Incident",
+    "triggerFulfillment": {
+    
+    },
+    "targetFlow": "Emergency_Report",
+    "name": "2151396e-e5c6-4566-91df-41e8c7b86899"
+  }, {
+    "intent": "Chat_Conclusion",
+    "triggerFulfillment": {
+    
+    },
+    "name": "8cfdcca1-ad28-4194-a25e-4e63922d46c6"
+  } ]
+}

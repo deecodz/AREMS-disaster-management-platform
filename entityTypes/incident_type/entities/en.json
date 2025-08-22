@@ -1,0 +1,23 @@
+{
+  "entities": [ {
+    "value": "infrastructure_damage",
+    "synonyms": [ "building collapse", "equipment malfunction", "facility impairment", "infrastructure damage", "structural failure", "system breakdown", "utility disruption" ],
+    "languageCode": "en"
+  }, {
+    "value": "medical_emergency",
+    "synonyms": [ "health crisis", "life-threatening condition", "medical crisis", "medical emergency", "serious illness", "sudden health issue", "urgent care" ],
+    "languageCode": "en"
+  }, {
+    "value": "fire",
+    "synonyms": [ "blaze", "combustion", "conflagration", "fire", "flames", "inferno", "wildfire" ],
+    "languageCode": "en"
+  }, {
+    "value": "flood",
+    "synonyms": [ "deluge", "flash flood", "flood", "flooding", "inundation", "overflow", "torrent", "water damage" ],
+    "languageCode": "en"
+  }, {
+    "value": "earthquake",
+    "synonyms": [ "ground shaking", "quake", "seismic activity", "seismic event", "temblor", "tremor" ],
+    "languageCode": "en"
+  } ]
+}

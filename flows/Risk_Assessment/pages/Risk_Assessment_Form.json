@@ -1,0 +1,68 @@
+{
+  "name": "85e69de3-f557-40a3-9e91-461830573db1",
+  "displayName": "Risk_Assessment_Form",
+  "form": {
+    "parameters": [ {
+      "displayName": "hazard_type",
+      "required": true,
+      "entityType": "@hazard_type",
+      "fillBehavior": {
+        "initialPromptFulfillment": {
+          "messages": [ {
+            "text": {
+              "text": [ "What type of hazard are you assessing? (natural disaster, technological hazard, biological hazard, or security threat)" ]
+            },
+            "languageCode": "en"
+          } ]
+        }
+      }
+    }, {
+      "displayName": "population_at_risk",
+      "required": true,
+      "entityType": "@population_risk",
+      "fillBehavior": {
+        "initialPromptFulfillment": {
+          "messages": [ {
+            "text": {
+              "text": [ "Which population group should be included in this assessment?" ]
+            },
+            "languageCode": "en"
+          } ]
+        }
+      }
+    }, {
+      "displayName": "affected_area",
+      "required": true,
+      "entityType": "@sys.location",
+      "fillBehavior": {
+        "initialPromptFulfillment": {
+          "messages": [ {
+            "text": {
+              "text": [ "What is the specific area or region being assessed?" ]
+            },
+            "languageCode": "en"
+          } ]
+        }
+      }
+    } ]
+  },
+  "entryFulfillment": {
+    "messages": [ {
+      "text": {
+        "text": [ "I'll help you conduct a comprehensive risk assessment. This will evaluate potential hazards and their impact on different population groups." ]
+      },
+      "languageCode": "en"
+    } ],
+    "webhook": "arems_emergency_webhook",
+    "tag": "risk-assessment"
+  },
+  "transitionRoutes": [ {
+    "condition": "$page.params.status = \"FINAL\"",
+    "triggerFulfillment": {
+      "webhook": "arems_emergency_webhook",
+      "tag": "risk-assessment"
+    },
+    "targetPage": "Assessment_Response",
+    "name": "a3f67ec7-a3ff-4dcc-8cd0-d606259f42c3"
+  } ]
+}

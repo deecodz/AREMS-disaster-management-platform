@@ -1,0 +1,19 @@
+{
+  "entities": [ {
+    "value": "critical",
+    "synonyms": [ "critical", "fatal", "high priority", "immediate action required", "life-threatening", "severe", "urgent" ],
+    "languageCode": "en"
+  }, {
+    "value": "high",
+    "synonyms": [ "critical", "extreme", "high", "major", "serious", "severe", "urgent" ],
+    "languageCode": "en"
+  }, {
+    "value": "medium",
+    "synonyms": [ "average", "fair", "intermediate", "medium", "moderate", "normal", "standard" ],
+    "languageCode": "en"
+  }, {
+    "value": "low",
+    "synonyms": [ "below average", "deficient", "limited", "low", "meager", "reduced" ],
+    "languageCode": "en"
+  } ]
+}

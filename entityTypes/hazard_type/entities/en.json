@@ -1,0 +1,19 @@
+{
+  "entities": [ {
+    "value": "security_threat",
+    "synonyms": [ "attack vector", "cybersecurity threat", "potential exploit", "security risk", "security_threat", "system weakness", "terrorism", "vulnerability", "cyber attack" ],
+    "languageCode": "en"
+  }, {
+    "value": "biological_hazard",
+    "synonyms": [ "bacteria", "biohazard", "biological_hazard", "corona virus", "ebola", "ebola virus", "infectious agent", "pathogen", "toxin", "virus" ],
+    "languageCode": "en"
+  }, {
+    "value": "technological_hazard",
+    "synonyms": [ "chemical spill", "cyber attack", "industrial accident", "infrastructure failure", "nuclear incident", "power outage", "technological_hazard" ],
+    "languageCode": "en"
+  }, {
+    "value": "natural_disaster",
+    "synonyms": [ "act of God", "earthquake", "environmental disaster", "extreme weather", "flood", "hurricane", "natural_disaster", "severe weather", "snow storm", "storm", "tsunami", "volcanic eruption", "wildfire" ],
+    "languageCode": "en"
+  } ]
+}
