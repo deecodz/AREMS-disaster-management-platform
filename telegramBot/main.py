@@ -7,8 +7,8 @@ from typing import Dict, Any
 from datetime import datetime
 import logging
 
-# Setup logging
-logging.basicConfig(level=logging.INFO)
+# Setup enhanced logging
+logging.basicConfig(level=logging.DEBUG)  
 logger = logging.getLogger(__name__)
 
 # Initialize Firestore and Storage clients
@@ -30,33 +30,58 @@ TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
 @functions_framework.http
 def main_handler(request):
     """Route between Telegram and Dialogflow CX webhooks"""
-    
-    req_json = request.get_json(silent=True)
-    logger.info(f"=== INCOMING REQUEST ===")
-    logger.info(f"Headers: {dict(request.headers)}")
-    logger.info(f"Payload: {req_json}")
-    
-    # Check if this is a Dialogflow CX webhook
-    if req_json and ('fulfillmentInfo' in req_json or 'sessionInfo' in req_json):
-        logger.info("🤖 DIALOGFLOW CX REQUEST DETECTED")
-        return handle_dialogflow_cx_webhook(request)
-    
-    # Otherwise handle as Telegram webhook
-    logger.info("📱 TELEGRAM REQUEST DETECTED")
-    return telegramWebhook(request)
-
-def handle_dialogflow_cx_webhook(request):
-    """Handle Dialogflow CX webhook requests"""
-    
     try:
         req_json = request.get_json(silent=True)
+        
+        # Enhanced logging
+        logger.info(f"=== INCOMING REQUEST DEBUG ===")
+        logger.info(f"Request Method: {request.method}")
+        logger.info(f"Request URL: {request.url}")
+        logger.info(f"Content-Type: {request.content_type}")
+        logger.info(f"User-Agent: {request.headers.get('User-Agent', 'No User-Agent')}")
+        logger.info(f"All Headers: {dict(request.headers)}")
+        logger.info(f"Raw request data (first 1000 chars): {str(request.get_data())[:1000]}")
+        logger.info(f"Parsed JSON payload: {req_json}")
+        
+        # Enhanced Dialogflow detection
+        is_dialogflow_cx = False
+        if req_json:
+            if any(key in req_json for key in ['fulfillmentInfo', 'sessionInfo', 'pageInfo', 'intentInfo']):
+                is_dialogflow_cx = True
+                logger.info("🤖 DIALOGFLOW CX REQUEST DETECTED")
+                return handle_dialogflow_cx_webhook(request)
+        
+        # Check User-Agent as backup
+        user_agent = request.headers.get('User-Agent', '')
+        if 'Google-Dialogflow' in user_agent:
+            logger.info("🤖 DIALOGFLOW CX DETECTED BY USER-AGENT")
+            return handle_dialogflow_cx_webhook(request)
+            
+        logger.info("📱 TELEGRAM REQUEST DETECTED")
+        return telegramWebhook(request)
+            
+    except Exception as e:
+        logger.error(f"❌ CRITICAL ERROR in main_handler: {str(e)}")
+        logger.error(f"Exception type: {type(e)}")
+        import traceback
+        logger.error(f"Full traceback: {traceback.format_exc()}")
+        return {"error": "Internal server error"}, 500
+
+def handle_dialogflow_cx_webhook(request):
+    """Handle Dialogflow CX webhook requests with enhanced debugging"""
+    try:
+        logger.info("=== ENTERING DIALOGFLOW CX HANDLER ===")
+        req_json = request.get_json(silent=True)
+        logger.info(f"Processing Dialogflow CX request: {req_json}")
+        
         session_info = req_json.get("sessionInfo", {})
         fulfillment_info = req_json.get("fulfillmentInfo", {})
         webhook_tag = fulfillment_info.get("tag", "")
         
-        logger.info(f"=== DIALOGFLOW CX WEBHOOK ===")
-        logger.info(f"Webhook Tag: {webhook_tag}")
+        logger.info(f"=== DIALOGFLOW CX WEBHOOK DETAILS ===")
+        logger.info(f"Webhook Tag: '{webhook_tag}'")
         logger.info(f"Session Info: {session_info}")
+        logger.info(f"Fulfillment Info: {fulfillment_info}")
         logger.info(f"Parameters: {session_info.get('parameters', {})}")
         
         # Route based on webhook tag
@@ -130,6 +155,8 @@ def handle_emergency_report(session_info):
         
     except Exception as e:
         logger.error(f"❌ ERROR IN EMERGENCY REPORT: {str(e)}")
+        import traceback
+        logger.error(f"Full traceback: {traceback.format_exc()}")
         return {
             "fulfillmentResponse": {
                 "messages": [{"text": {"text": ["Error processing emergency report. Please try again."]}}]
