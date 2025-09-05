@@ -3,6 +3,7 @@ import requests
 import os
 from google.cloud import storage
 from google.cloud import firestore
+from google.cloud import discoveryengine_v1 as discoveryengine
 from typing import Dict, Any
 from datetime import datetime
 import logging
@@ -17,8 +18,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Add immediate logging to verify deployment
-print("🚀 FULL-FEATURED AREMS SYSTEM STARTING - Fixed webhook timing version!")
-logger.info("🚀 FULL-FEATURED AREMS SYSTEM STARTING - Fixed webhook timing version!")
+print("🚀 FULL-FEATURED AREMS SYSTEM WITH KNOWLEDGE SEARCH - Production version!")
+logger.info("🚀 FULL-FEATURED AREMS SYSTEM WITH KNOWLEDGE SEARCH - Production version!")
 
 # Initialize Firestore and Storage clients
 try:
@@ -35,8 +36,15 @@ except Exception as e:
     logger.error(f"❌ Failed to initialize clients: {str(e)}")
     raise
 
+# Environment variables
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_API_URL = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}"
+AI_SEARCH_ENGINE_ID = os.getenv("AI_SEARCH_ENGINE_ID") 
+
+# Validate required environment variables
+if not AI_SEARCH_ENGINE_ID:
+    print("⚠️ AI_SEARCH_ENGINE_ID environment variable not set - knowledge search will be disabled")
+    logger.warning("⚠️ AI_SEARCH_ENGINE_ID environment variable not set - knowledge search will be disabled")
 
 @functions_framework.http
 def telegramWebhook(request):
@@ -128,32 +136,45 @@ def handle_dialogflow_cx_webhook(request):
         
         session_info = req_json.get("sessionInfo", {})
         fulfillment_info = req_json.get("fulfillmentInfo", {})
-        page_info = req_json.get("pageInfo", {})  # ⭐ CRITICAL: Add page info
+        page_info = req_json.get("pageInfo", {})
         webhook_tag = fulfillment_info.get("tag", "")
         
         print(f"🏷️ Webhook Tag: '{webhook_tag}'")
         print(f"📋 Session Info: {session_info}")
         print(f"🔧 Fulfillment Info: {fulfillment_info}")
-        print(f"📄 Page Info: {page_info}")  # ⭐ Log page info
+        print(f"📄 Page Info: {page_info}")
         print(f"⚙️ Parameters: {session_info.get('parameters', {})}")
         
         logger.info(f"🏷️ Webhook Tag: '{webhook_tag}'")
         logger.info(f"📋 Session Info: {session_info}")
         logger.info(f"🔧 Fulfillment Info: {fulfillment_info}")
-        logger.info(f"📄 Page Info: {page_info}")  # ⭐ Log page info
+        logger.info(f"📄 Page Info: {page_info}")
         logger.info(f"⚙️ Parameters: {session_info.get('parameters', {})}")
 
-        # Route based on webhook tag with FORM COMPLETION CHECK
+        # Enhanced routing with knowledge search support
         if webhook_tag == "emergency-submission":
             print("🚨 Routing to EMERGENCY REPORT handler")
             logger.info("🚨 Routing to EMERGENCY REPORT handler")
-            return handle_emergency_report(session_info, page_info, req_json)  # ⭐ Pass all data
+            return handle_emergency_report(session_info, page_info, req_json)
         elif webhook_tag == "risk-assessment":
             print("📊 Routing to RISK ASSESSMENT handler")
             logger.info("📊 Routing to RISK ASSESSMENT handler")  
-            return handle_risk_assessment(session_info, page_info, req_json)  # ⭐ Pass all data
+            return handle_risk_assessment(session_info, page_info, req_json)
+        elif webhook_tag == "knowledge-search":  # ⭐ NEW
+            print("📚 Routing to KNOWLEDGE SEARCH handler")
+            logger.info("📚 Routing to KNOWLEDGE SEARCH handler")
+            return handle_knowledge_search(session_info, page_info, req_json)
         else:
-            warning_msg = f"⚠️ Unknown webhook tag: '{webhook_tag}' - Expected 'emergency-submission' or 'risk-assessment'"
+            # ⭐ ENHANCED: Auto-route general questions to knowledge search
+            text_input = req_json.get("text", "")
+            if text_input and not is_emergency_or_risk_query(text_input):
+                print(f"🔀 Auto-routing general question to knowledge search: {text_input}")
+                logger.info(f"🔀 Auto-routing general question to knowledge search: {text_input}")
+                # Create mock session info for knowledge search
+                mock_session = {"parameters": {"user_question": text_input}}
+                return handle_knowledge_search(mock_session, page_info, req_json)
+            
+            warning_msg = f"⚠️ Unknown webhook tag: '{webhook_tag}' - Expected 'emergency-submission', 'risk-assessment', or 'knowledge-search'"
             print(warning_msg)
             logger.warning(warning_msg)
             
@@ -178,6 +199,228 @@ def handle_dialogflow_cx_webhook(request):
                 "messages": [{"text": {"text": ["System error occurred. Please try again."]}}]
             }
         }
+
+# ⭐ NEW: Knowledge Search Handler
+def handle_knowledge_search(session_info, page_info, full_request):
+    """Handle knowledge searches using AI Applications search engine"""
+    
+    print("📚 === PROCESSING KNOWLEDGE SEARCH ===")
+    logger.info("📚 === PROCESSING KNOWLEDGE SEARCH ===")
+    
+    try:
+        # Extract user question from parameters or text input
+        user_question = session_info.get('parameters', {}).get('user_question', '') or \
+                       full_request.get('text', '') or \
+                       full_request.get('queryInput', {}).get('text', {}).get('text', '')
+        
+        print(f"📝 Knowledge search query: {user_question}")
+        logger.info(f"📝 Knowledge search query: {user_question}")
+        
+        if not user_question:
+            return {
+                "fulfillmentResponse": {
+                    "messages": [{"text": {"text": ["Please ask me about emergency procedures, evacuation plans, or safety guidelines."]}}]
+                }
+            }
+        
+        # Check if AI search engine is configured
+        if not AI_SEARCH_ENGINE_ID:
+            print("⚠️ AI Search Engine not configured")
+            logger.warning("⚠️ AI Search Engine not configured")
+            return {
+                "fulfillmentResponse": {
+                    "messages": [{"text": {"text": ["Knowledge search is currently unavailable. Please contact emergency services for immediate assistance."]}}]
+                }
+            }
+        
+        # Search the disaster knowledge base
+        search_results = search_ai_applications_engine(user_question)
+        
+        if search_results and hasattr(search_results, 'results') and search_results.results:
+            # Format comprehensive response
+            answer = format_knowledge_response(search_results)
+            
+            print(f"✅ Knowledge search successful, returning answer: {answer[:100]}...")
+            logger.info(f"✅ Knowledge search successful, returning answer: {answer[:100]}...")
+            
+            return {
+                "fulfillmentResponse": {
+                    "messages": [{"text": {"text": [answer]}}]
+                },
+                "sessionInfo": {
+                    "parameters": {
+                        "knowledge_sources": extract_sources(search_results),
+                        "last_search_query": user_question
+                    }
+                }
+            }
+        else:
+            print("❌ No search results found")
+            logger.info("❌ No search results found")
+            return {
+                "fulfillmentResponse": {
+                    "messages": [{"text": {"text": ["I couldn't find specific information about that. Please try rephrasing your question or contact emergency services for immediate assistance."]}}]
+                }
+            }
+            
+    except Exception as e:
+        error_msg = f"❌ ERROR IN KNOWLEDGE SEARCH: {str(e)}"
+        print(error_msg)
+        logger.error(error_msg)
+        import traceback
+        traceback_msg = f"Full traceback: {traceback.format_exc()}"
+        print(traceback_msg)
+        logger.error(traceback_msg)
+        return {
+            "fulfillmentResponse": {
+                "messages": [{"text": {"text": ["Error searching knowledge base. Please try again."]}}]
+            }
+        }
+
+# ⭐ NEW: AI Applications Search Function
+def search_ai_applications_engine(query):
+    """Search the AI Applications disaster knowledge engine"""
+    
+    print(f"🔍 Searching AI Applications engine for: {query}")
+    logger.info(f"🔍 Searching AI Applications engine for: {query}")
+    
+    try:
+        client = discoveryengine.SearchServiceClient()
+        
+        # Construct serving config path using environment variable
+        serving_config = f"projects/arems-project/locations/global/collections/default_collection/engines/{AI_SEARCH_ENGINE_ID}/servingConfigs/default_config"
+        
+        print(f"📡 Using serving config: {serving_config}")
+        logger.info(f"📡 Using serving config: {serving_config}")
+        
+        # Enhanced search request with 2025 features
+        request = discoveryengine.SearchRequest(
+            serving_config=serving_config,
+            query=query,
+            page_size=5,
+            # Query expansion for better results
+            query_expansion_spec=discoveryengine.SearchRequest.QueryExpansionSpec(
+                condition=discoveryengine.SearchRequest.QueryExpansionSpec.Condition.AUTO
+            ),
+            # Spell correction
+            spell_correction_spec=discoveryengine.SearchRequest.SpellCorrectionSpec(
+                mode=discoveryengine.SearchRequest.SpellCorrectionSpec.Mode.AUTO
+            ),
+            # Enhanced content search with AI summary
+            content_search_spec=discoveryengine.SearchRequest.ContentSearchSpec(
+                summary_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec(
+                    summary_result_count=3,
+                    include_citations=True,
+                    ignore_adversarial_query=True,
+                    ignore_non_summary_seeking_query=False
+                )
+            )
+        )
+        
+        print("🔄 Executing search request...")
+        logger.info("🔄 Executing search request...")
+        
+        response = client.search(request=request)
+        
+        print(f"✅ Search completed. Results count: {len(list(response.results)) if response.results else 0}")
+        logger.info(f"✅ Search completed. Results count: {len(list(response.results)) if response.results else 0}")
+        
+        return response
+        
+    except Exception as e:
+        print(f"❌ Error in AI Applications search: {str(e)}")
+        logger.error(f"❌ Error in AI Applications search: {str(e)}")
+        import traceback
+        print(f"Full traceback: {traceback.format_exc()}")
+        logger.error(f"Full traceback: {traceback.format_exc()}")
+        return None
+
+# ⭐ NEW: Response Formatting Function
+def format_knowledge_response(search_results):
+    """Format search results into comprehensive emergency response"""
+    
+    print("📝 Formatting knowledge response...")
+    logger.info("📝 Formatting knowledge response...")
+    
+    try:
+        # Use AI-generated summary if available
+        if hasattr(search_results, 'summary') and search_results.summary and search_results.summary.summary_text:
+            print("✅ Using AI-generated summary")
+            logger.info("✅ Using AI-generated summary")
+            
+            answer = search_results.summary.summary_text
+            
+            # Add source citations
+            citations = []
+            for i, result in enumerate(search_results.results[:3], 1):
+                if hasattr(result, 'document') and result.document:
+                    # Extract document name from path
+                    doc_parts = result.document.split('/')
+                    doc_name = doc_parts[-1] if doc_parts else "Document"
+                    doc_name = doc_name.replace('.pdf', '').replace('-', ' ').replace('_', ' ').title()
+                    citations.append(f"[{i}] {doc_name}")
+            
+            if citations:
+                answer += f"\n\n📚 **Sources**: {', '.join(citations)}"
+            
+            return answer
+            
+        else:
+            # Fallback to document excerpts
+            print("⚠️ No AI summary available, using document excerpts")
+            logger.info("⚠️ No AI summary available, using document excerpts")
+            
+            responses = []
+            for result in search_results.results[:2]:
+                if hasattr(result, 'document') and hasattr(result.document, 'derived_struct_data'):
+                    # Try to extract snippets or content
+                    struct_data = result.document.derived_struct_data
+                    if 'snippets' in struct_data and struct_data['snippets']:
+                        responses.append(struct_data['snippets'][0]['snippet'])
+            
+            if responses:
+                return ". ".join(responses)
+            else:
+                return "No specific information found in the knowledge base."
+        
+    except Exception as e:
+        print(f"❌ Error formatting response: {str(e)}")
+        logger.error(f"❌ Error formatting response: {str(e)}")
+        return "Error formatting search results."
+
+# ⭐ NEW: Extract Sources Function
+def extract_sources(search_results):
+    """Extract source information from search results"""
+    
+    try:
+        sources = []
+        for result in search_results.results[:3]:
+            if hasattr(result, 'document') and result.document:
+                doc_parts = result.document.split('/')
+                doc_name = doc_parts[-1] if doc_parts else "Unknown Document"
+                sources.append(doc_name)
+        return sources
+    except Exception as e:
+        print(f"❌ Error extracting sources: {str(e)}")
+        logger.error(f"❌ Error extracting sources: {str(e)}")
+        return []
+
+# ⭐ NEW: Query Classification Function
+def is_emergency_or_risk_query(text):
+    """Check if query should route to emergency/risk assessment flows"""
+    
+    emergency_keywords = [
+        'report', 'emergency', 'incident', 'urgent', 'help me report',
+        'assess risk', 'risk assessment', 'i need to report', 'there is an emergency'
+    ]
+    text_lower = text.lower()
+    
+    # Check for exact emergency/risk assessment intent
+    for keyword in emergency_keywords:
+        if keyword in text_lower:
+            return True
+    
+    return False
 
 def handle_emergency_report(session_info, page_info, full_request):
     """Handle emergency report webhook - ONLY save when form is complete"""
